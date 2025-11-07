@@ -187,6 +187,14 @@
 
 			$message = $userdisp . " | " . $name . "\n\n" . json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
 
+			// append the log file if it exists
+			// 240410 rwisner
+			$log = "/var/log/xcron/" . $userdisp . "--" . $name . ".log";
+			if (file_exists($log)) {
+				$message .= "\n\n===== LOG FILE =====\n\n";
+				$message .= file_get_contents($log);
+			}
+
 			$smtpoptions = $notifyinfo["options"];
 			$smtpoptions["textmessage"] = $message;
 
